@@ -1,156 +1,165 @@
-// All your DOM manipulation must happen here.
-// You will create and inject all elements into <main id="root"> using JavaScript only.
-
 // Root element
 const mainRoot = document.getElementById("root");
 
 // 🌿 Root styling
 Object.assign(mainRoot.style, {
-  backgroundColor: "#dbecd9c7",
-  width: "700px",
-  paddingTop: "40px",
-  textAlign: "center",
-  borderRadius: "30px"
+  backgroundColor: "#f8fefc",       
+  maxWidth: "500px",                
+  margin: "60px auto",             
+  padding: "40px 30px",             
+  textAlign: "center",              
+  borderRadius: "16px",             
+  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)", 
+  fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"  
 });
 
 // Heading
 const heading = document.createElement("h1");
-heading.textContent = "Mini Task Tracker";
-mainRoot.appendChild(heading);
-
-// 🌿 Heading styling
+heading.textContent = "📝 Task Manager";  
 Object.assign(heading.style, {
-  fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
-  color: "#087e27ff",
-  fontWeight: "600"
+  color: "#1c6c46",      
+  fontSize: "28px",     
+  fontWeight: "600",    
+  marginBottom: "25px"  
 });
+mainRoot.appendChild(heading); 
 
-// Input label
+// Label
 const inputLabel = document.createElement("label");
-inputLabel.appendChild(document.createTextNode("Enter A Task"));
-inputLabel.appendChild(document.createElement("br"));
-
-// 🌿 Input label styling
+inputLabel.textContent = "Add a new task";  
 Object.assign(inputLabel.style, {
-  color: "#346140",
-  fontSize: "20px",
-  fontWeight: "550"
+  display: "block",       
+  fontSize: "16px",       
+  color: "#333",         
+  fontWeight: "500",      
+  marginBottom: "8px",    
+  textAlign: "left"       
 });
+mainRoot.appendChild(inputLabel);  
 
 // Input field
 const inputTask = document.createElement("input");
-inputTask.type = "text";
-inputTask.name = "task";
-inputTask.id = "newTask";
-inputLabel.appendChild(inputTask);
-
-mainRoot.appendChild(inputLabel);
-mainRoot.appendChild(document.createElement("br"));
-mainRoot.appendChild(document.createElement("br"));
-mainRoot.appendChild(document.createElement("br"));
+inputTask.type = "text";            
+inputTask.placeholder = "Enter task";  
+Object.assign(inputTask.style, {
+  width: "100%",             
+  padding: "12px 14px",     
+  fontSize: "15px",         
+  borderRadius: "8px",       
+  border: "1px solid #d0e2d4", 
+  marginBottom: "20px"       
+});
+mainRoot.appendChild(inputTask); 
 
 // Add button
 const addBtn = document.createElement("button");
-addBtn.textContent = "ADD";
-mainRoot.appendChild(addBtn);
-
-// 🌿 Add button styling
+addBtn.textContent = "➕ Add Task";  
 Object.assign(addBtn.style, {
-  backgroundColor: "#346140",
-  color: "white",
-  borderRadius: "10px",
-  padding: "10px 20px",
-  border: "1px solid green"
+  backgroundColor: "#1c6c46",    
+  color: "#fff",                 
+  border: "none",                
+  borderRadius: "8px",           
+  padding: "12px 20px",         
+  fontSize: "15px",              
+  cursor: "pointer",             
+  fontWeight: "500",           
+  transition: "background-color 0.3s"  
 });
 
-mainRoot.appendChild(document.createElement("br"));
+// Add hover effect
+addBtn.addEventListener("mouseenter", () => {
+  addBtn.style.backgroundColor = "#145237";  
+});
+addBtn.addEventListener("mouseleave", () => {
+  addBtn.style.backgroundColor = "#1c6c46";  
+});
+mainRoot.appendChild(addBtn);  
 
-// Container for tasks
+// Task list container
 const myTasksDiv = document.createElement("div");
-mainRoot.appendChild(myTasksDiv);
+Object.assign(myTasksDiv.style, {
+  marginTop: "30px" 
+});
+mainRoot.appendChild(myTasksDiv);  
 
-// Add task function
-let currentTaskLabel = null;
-
+// Add task functionality
 addBtn.addEventListener("click", function () {
+ 
   const task = inputTask.value.trim();
 
   if (task === "") {
-    alert("Please enter a task");
+    alert("🚨 Please enter a task!");
     return;
   }
 
-  // Task container
+  // Create a container div for the task item
   const taskContainer = document.createElement("div");
-
-  // 🌿 Task container styling
   Object.assign(taskContainer.style, {
-    display: "flex",
-    alignItems: "center",
-    gap: "30px",
-    paddingLeft: "300px"
+    display: "flex",                      
+    justifyContent: "space-between",    
+    alignItems: "center",                 
+    backgroundColor: "#e9f6f0",          
+    padding: "14px 16px",                 
+    borderRadius: "10px",               
+    marginBottom: "12px",             
+    boxShadow: "0 2px 4px rgba(0,0,0,0.05)"  
   });
 
-  // Label with checkbox
+  // Create label element to hold checkbox and task text
   const label = document.createElement("label");
-  label.appendChild(document.createElement("br"));
 
+  // Create checkbox input 
   const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.name = "task";
+  checkbox.type = "checkbox";         
+  checkbox.style.marginRight = "10px";
 
-  label.appendChild(checkbox);
-  label.appendChild(document.createTextNode(task));
-  label.appendChild(document.createElement("br"));
-
-  console.log("Added: ", task);
-  inputTask.value = "";
-
-  // 🌿 Label styling
-  Object.assign(label.style, {
-    fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
-    color: "#1a5028ff",
-    fontWeight: "600",
-    paddingBottom: "30px"
+  // Create span to hold task text
+  const taskText = document.createElement("span");
+  taskText.textContent = task;          
+  Object.assign(taskText.style, {
+    fontSize: "16px",                   
+    color: "#2d3e34",                
+    fontWeight: "500"                   
   });
 
-  // Completed task (line-through effect)
+  // Checkbox change event
   checkbox.addEventListener("change", function () {
     if (checkbox.checked) {
-      label.style.textDecoration = "line-through";
-      label.style.textDecorationColor = "#1c963cff";
-      console.log("Completed");
+      // If checked, strike through text and change color to gray
+      taskText.style.textDecoration = "line-through";
+      taskText.style.color = "#999";
     } else {
-      label.style.textDecoration = "none";
+
+      taskText.style.textDecoration = "none";
+      taskText.style.color = "#2d3e34";
     }
   });
 
-  // Delete button
+  // Append checkbox and task text inside the label
+  label.appendChild(checkbox);
+  label.appendChild(taskText);
+
+  // Create delete button to remove task from list
   const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-
-  // 🌿 Delete button styling
+  deleteBtn.textContent = "X";      
   Object.assign(deleteBtn.style, {
-    backgroundColor: "#cfd8cfff",
-    color: "#1a5028ff",
-    borderRadius: "10px",
-    padding: "5px 10px",
-    border: "1px solid gray",
-    fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
-    fontWeight: "600"
+    border: "none",                  
+    fontSize: "18px",               
+    cursor: "pointer"                
   });
-
+  
+  // Delete button click event
   deleteBtn.addEventListener("click", function () {
     myTasksDiv.removeChild(taskContainer);
-    console.log("Deleted task: ", task);
   });
 
-  // Add label and delete button to container
+  // Append label and delete button to the task container
   taskContainer.appendChild(label);
   taskContainer.appendChild(deleteBtn);
 
-  // Add container to task list
+  // Add the task container to the task list div
   myTasksDiv.appendChild(taskContainer);
 
-  currentTaskLabel = label;
+  // Clear the input field after adding the task
+  inputTask.value = "";
 });
