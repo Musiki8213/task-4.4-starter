@@ -1,137 +1,156 @@
 // All your DOM manipulation must happen here.
 // You will create and inject all elements into <main id="root"> using JavaScript only.
 
-//root
-
+// Root element
 const mainRoot = document.getElementById("root");
-mainRoot.style.backgroundColor = "#dbecd9c7";
-mainRoot.style.width = "700px";
-mainRoot.style.paddingTop = "40px";
-mainRoot.style.textAlign = "center";
-mainRoot.style.borderRadius = "30px";
 
+// 🌿 Root styling
+Object.assign(mainRoot.style, {
+  backgroundColor: "#dbecd9c7",
+  width: "700px",
+  paddingTop: "40px",
+  textAlign: "center",
+  borderRadius: "30px"
+});
 
-
-//heading
+// Heading
 const heading = document.createElement("h1");
 heading.textContent = "Mini Task Tracker";
 mainRoot.appendChild(heading);
-heading.style.fontFamily = "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;";
-heading.style.color = "#087e27ff";
-heading.style.fontWeight = "600";
 
-//input field
+// 🌿 Heading styling
+Object.assign(heading.style, {
+  fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+  color: "#087e27ff",
+  fontWeight: "600"
+});
+
+// Input label
 const inputLabel = document.createElement("label");
 inputLabel.appendChild(document.createTextNode("Enter A Task"));
 inputLabel.appendChild(document.createElement("br"));
-inputLabel.style.color = "#346140";
-inputLabel.style.fontSize = "20px";
-inputLabel.style.fontWeight = "550";
 
+// 🌿 Input label styling
+Object.assign(inputLabel.style, {
+  color: "#346140",
+  fontSize: "20px",
+  fontWeight: "550"
+});
+
+// Input field
 const inputTask = document.createElement("input");
 inputTask.type = "text";
 inputTask.name = "task";
 inputTask.id = "newTask";
 inputLabel.appendChild(inputTask);
+
 mainRoot.appendChild(inputLabel);
-
 mainRoot.appendChild(document.createElement("br"));
 mainRoot.appendChild(document.createElement("br"));
 mainRoot.appendChild(document.createElement("br"));
 
-//add button
+// Add button
 const addBtn = document.createElement("button");
 addBtn.textContent = "ADD";
-addBtn.style.backgroundColor = "#346140";
-addBtn.style.color = "white";
-addBtn.style.borderRadius = "10px";
-addBtn.style.padding = "10px 20px 10px 20px";
-addBtn.style.border = "1px solid green";
-
 mainRoot.appendChild(addBtn);
 
+// 🌿 Add button styling
+Object.assign(addBtn.style, {
+  backgroundColor: "#346140",
+  color: "white",
+  borderRadius: "10px",
+  padding: "10px 20px",
+  border: "1px solid green"
+});
+
 mainRoot.appendChild(document.createElement("br"));
-//div
+
+// Container for tasks
 const myTasksDiv = document.createElement("div");
 mainRoot.appendChild(myTasksDiv);
 
-//add function
+// Add task function
 let currentTaskLabel = null;
+
 addBtn.addEventListener("click", function () {
-  task = inputTask.value.trim();
+  const task = inputTask.value.trim();
+
   if (task === "") {
     alert("Please enter a task");
     return;
   }
 
-    const taskContainer = document.createElement("div");
-  
- taskContainer.style.display = "flex";
-taskContainer.style.alignItems = "center";
-taskContainer.style.gap = "30px";
-taskContainer.style.paddingLeft = "300px";
-  //checkbox
+  // Task container
+  const taskContainer = document.createElement("div");
+
+  // 🌿 Task container styling
+  Object.assign(taskContainer.style, {
+    display: "flex",
+    alignItems: "center",
+    gap: "30px",
+    paddingLeft: "300px"
+  });
+
+  // Label with checkbox
   const label = document.createElement("label");
   label.appendChild(document.createElement("br"));
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.name = "task";
+
   label.appendChild(checkbox);
   label.appendChild(document.createTextNode(task));
   label.appendChild(document.createElement("br"));
-  myTasksDiv.appendChild(label);
+
   console.log("Added: ", task);
   inputTask.value = "";
 
-  
+  // 🌿 Label styling
+  Object.assign(label.style, {
+    fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+    color: "#1a5028ff",
+    fontWeight: "600",
+    paddingBottom: "30px"
+  });
 
-
-  //completed tasks
+  // Completed task (line-through effect)
   checkbox.addEventListener("change", function () {
     if (checkbox.checked) {
       label.style.textDecoration = "line-through";
-       console.log("Completed ");
       label.style.textDecorationColor = "#1c963cff";
+      console.log("Completed");
     } else {
       label.style.textDecoration = "none";
     }
   });
-    const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.style.backgroundColor = "#cfd8cfff";
-  deleteBtn.style.color = "#0f852fff";
-  deleteBtn.style.borderRadius = "10px";
-  deleteBtn.style.padding = "5px 10px";
-  deleteBtn.style.border = "1px solid gray";
-  
-deleteBtn.style.fontFamily = "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;";
-deleteBtn.style.color = "#1a5028ff";
-deleteBtn.style.fontWeight = "600";
 
+  // Delete button
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+
+  // 🌿 Delete button styling
+  Object.assign(deleteBtn.style, {
+    backgroundColor: "#cfd8cfff",
+    color: "#1a5028ff",
+    borderRadius: "10px",
+    padding: "5px 10px",
+    border: "1px solid gray",
+    fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+    fontWeight: "600"
+  });
 
   deleteBtn.addEventListener("click", function () {
     myTasksDiv.removeChild(taskContainer);
     console.log("Deleted task: ", task);
   });
-  
- taskContainer.appendChild(label);
+
+  // Add label and delete button to container
+  taskContainer.appendChild(label);
   taskContainer.appendChild(deleteBtn);
 
-  
+  // Add container to task list
   myTasksDiv.appendChild(taskContainer);
 
-
-label.style.fontFamily = "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;";
-label.style.color = "#1a5028ff";
-label.style.fontWeight = "600";
-label.style.paddingBottom = "30px";
-
+  currentTaskLabel = label;
 });
-
-
-
-
-
-
-
